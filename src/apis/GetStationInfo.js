@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-export const GetStationInfo = () => {
+export const GetStationInfo = (mapLevel, xOne, xTwo, yOne, yTwo) => {
 
 	const [stationData, setStationData] = useState({
 		coState: "좋음",
@@ -26,17 +26,34 @@ export const GetStationInfo = () => {
 	const url = process.env.REACT_APP_BACKEND_URL;
 	const endpoint = '/map'
 
-	useEffect(() => {
-		const getStationInfo = async () => {
-			try {
-				const res = await axios.get(url + endpoint);
-				setStationData(res.data.data);
-			} catch (e) {
-				console.error(e.message);
+	/* call Ajax */
+	const getStationInfo = async () => {
+		await axios.get(url + endpoint, {
+			params: {
+				mapLevel: mapLevel,
+				xOne: xOne,
+				xTwo: xTwo,
+				yOne: yOne,
+				yTwo: yTwo,
 			}
-		};
+		})
+		.then(function(response){
+			// handle success
+			console.log("-----------called GetStationInfo: 측정소 마커 불러오기-----------");
+			console.log(response.data.data);
+			setStationData(response.data.data);
+		})
+		.catch(function(error){
+			// handle error
+			//alert("서버 오류로 측정소 정보를 가져오지 못했습니다.");
+			console.log("서버 오류로 측정소 정보를 가져오지 못했습니다.");
+			console.log(error.message);
+		})
+	};
+	
+	useEffect(() => {
 		getStationInfo();
-	}, [])
+	}, [xOne, xTwo, yOne, yTwo]);
 
 	return stationData
 }

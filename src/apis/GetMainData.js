@@ -1,60 +1,46 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export const GetMainData = (tmX, tmY) => {
-	// tm좌표기반의 근접측정소를 조회하고 측정소 이름을 가져옵니다.
+export const GetMainData = (lat, lng) => {
 	const url = process.env.REACT_APP_BACKEND_URL;
 	const endpoint = '/main';
-	const API_KEY = process.env.REACT_APP_STATION_API_KEY;
 
-	const [stationName, setStationName] = useState("중구");
-	const [stationAddr, setStationAddr] = useState("서울 중구 덕수궁길 15 시청서소문별관 3동");
+	/* 대기 오염 데이터  */
 	const [pollutantData, setPollutantData] = useState({
-		forecast: {
+		forecast: { //주간 예보
 		},
-		nationwide: {
+		nationwide: { //전국 대기 정보 등급
 		},
-		stationInfo: {
+		stationInfo: { //해당 측정소의 대기 오염 측정 정보 
 		},
-		nationwideValue: {
+		nationwideValue: { //전국 대기 정보 수치
 		}
 	});
 
-	useEffect(() => {
-		const getStationName = async () => {
-			try {
-				const res = await axios.get("http://apis.data.go.kr/B552584/MsrstnInfoInqireSvc/getNearbyMsrstnList", {
-					params: {
-						serviceKey: API_KEY,
-						returnType: "json",
-						tmX: tmX,
-						tmY: tmY,
-					}
-				});
-				setStationName(res.data.response.body.items[0].stationName);
-				setStationAddr(res.data.response.body.items[0].addr);
-			} catch (e) {
-				console.error(e.message);
+	/* call Ajax */
+	const getPollutantData = async () => {
+		await axios.get(url + endpoint, {
+			params: {
+				latitude: lat,
+				longitude: lng
 			}
-		};
-		getStationName();
+		})
+		.then(function(response){
+			// handle success
+			console.log("-----------called GetMainData-----------");
+			console.log(response.data.data);
+			setPollutantData(response.data.data);
+		})
+		.catch(function(error) {
+			// handle error
+			alert("서버 오류로 대기오염 정보를 가져오지 못했습니다.");
+			console.log(error.message);
+		})
+	}
 
-		// 측정소 이름과 주소를 Backend로 전달하고 data를 가져옵니다.
-		const getPollutantData = async () => {
-			try {
-				const res = await axios.get(url + endpoint, {
-					params: {
-						stationName: encodeURI(stationName),
-						addr: encodeURI(stationAddr),
-					}
-				});
-				setPollutantData(res.data.data);
-			} catch (e) {
-				console.error(e.message);
-			}
-		}
+	useEffect(() => {
 		getPollutantData();
-	}, [tmX, tmY, stationName]);
+	}, [lat, lng]);
 
 	return pollutantData
 }
