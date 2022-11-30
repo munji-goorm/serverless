@@ -21,13 +21,14 @@ export const SearchBox = ({ setAddr, setCoord, setSearchBtn }) => {
 
 	const showDropDownList = useCallback(
 		debounce(async (value) => {
+			const url = process.env.REACT_APP_BACKEND_URL;
 			const endpoint = '/main/search';
 			try {
 				if (value === '') {
 					setIsHaveInputValue(false);
 					setDropDownList([]);
 				} else {
-					const res = await axios.get(endpoint, {
+					const res = await axios.get(url + endpoint, {
 						params: {
 							keyword: value
 						}
