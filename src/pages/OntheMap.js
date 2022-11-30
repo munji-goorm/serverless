@@ -1,7 +1,7 @@
 import React, { useRef, useState } from 'react'
 import { InfoBox, StationMap } from '../components/OntheMap';
 
-export default function Map() {
+export default function Map({coord}) {
 	const [currentBtn, setCurrentBtn] = useState("CAI");
 	let pollutantBtn = useRef();
 
@@ -25,33 +25,34 @@ export default function Map() {
 	return (
 		<div className='flex flex-col items-center'>
 			<div className='relative my-[2rem] flex justify-center'>
-				<StationMap name={currentBtn}/>
-				<div ref={pollutantBtn} className='z-10 right-[1rem] top-[1rem] rounded-lg absolute flex flex-col w-[5rem] h-fit bg-[#ffffff] drop-shadow-lg text-[#272727]'>
-					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#ffffff] bg-[#272727] z-20 py-0.5 w-[5rem] rounded-md h-1/7'
+				<StationMap coord={coord} name={currentBtn}/>
+				<div ref={pollutantBtn} className='z-10 right-[3rem] top-[0.2rem] rounded absolute flex flex-col w-[5rem] h-fit bg-[#ffffff] text-[#272727] text-base'
+				style={{boxShadow: "rgba(0, 0, 0, 0.15) 0px 2px 2px 0px"}}>
+					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#ffffff] bg-[#272727] z-20 py-[0.0828rem] w-[5rem] rounded h-1/7'
 						onClick={onClickBtn}>
 						CAI
 					</button>
-					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-0.5 w-[5rem] rounded-md h-1/7'
+					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-[0.0828rem] w-[5rem] rounded h-1/7'
 						onClick={onClickBtn}>
 						PM10
 					</button>
-					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-0.5 w-[5rem] rounded-md h-1/7'
+					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-[0.0828rem] w-[5rem] rounded h-1/7'
 						onClick={onClickBtn}>
 						PM2.5
 					</button>
-					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-0.5 w-[5rem] rounded-md h-1/7'
+					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-[0.0828rem] w-[5rem] rounded h-1/7'
 						onClick={onClickBtn}>
 						SO2
 					</button>
-					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-0.5 w-[5rem] rounded-md h-1/7'
+					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-[0.0828rem] w-[5rem] rounded h-1/7'
 						onClick={onClickBtn}>
 						NO2
 					</button>
-					<button className='hover:text-[#ffffff] hover:bg-[#272727] z-20 text-[#838383] py-0.5 w-[5rem] rounded-md h-1/7'
+					<button className='hover:text-[#ffffff] hover:bg-[#272727] z-20 text-[#838383] py-[0.0828rem] w-[5rem] rounded h-1/7'
 						onClick={onClickBtn}>
 						CO
 					</button>
-					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-0.5 w-[5rem] rounded-md h-1/7'
+					<button className='hover:text-[#ffffff] hover:bg-[#272727] text-[#838383] z-20 py-[0.0828rem] w-[5rem] rounded h-1/7'
 						onClick={onClickBtn}>
 						O3
 					</button>

@@ -2,8 +2,9 @@ import React from 'react';
 import { DailyForecastBox, HitmapBox, MainBox, PollutantBox, WholeAirInfoBox } from '../components/AirPollution';
 import { PM10Box } from '../components/AirPollution/PM10Box';
 
-export default function AirPollution({stationData}) {
+export default function AirPollution({stationData, addr}) {
 	let stationInfo = stationData.stationInfo;
+	let stationName = stationInfo.stationName;
 	let grade = stationInfo.khaiState;
 	let dateTime = stationInfo.dateTime;
 	let forecast = stationData.forecast;
@@ -12,7 +13,7 @@ export default function AirPollution({stationData}) {
 
 	return (
 		<div className='flex flex-col items-center w-full'>
-			<MainBox grade={grade} dateTime={dateTime}/>
+			<MainBox grade={grade} dateTime={dateTime} stationName={stationName}/>
 			<div className='w-[63rem] flex flex-row justify-between'>
 				<DailyForecastBox forecast={forecast}/>
 				<WholeAirInfoBox gradeList={nationwideGrade} valueList={nationwideValue}/>

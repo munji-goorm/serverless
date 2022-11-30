@@ -1,26 +1,35 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ReactComponent as SearchIcon } from '../../assets/icons/search.svg';
 import axios from 'axios';
 
-export const SearchBox = ({setAddr, setCoord, setSearchBtn}) => {
+export const SearchBox = ({ setAddr, setCoord, setSearchBtn }) => {
+	/* 특정 시간 동안 연속적으로 호출되는 이벤트 중 마지막 이벤트만 호출  */
+	//callback: 일정 시간이 지난 후 실행되는 함수, delay: 지연 시간
+	const debounce = (callback, delay) => {
+		let timer;
+		return (...args) => {
+			clearTimeout(timer);
+			timer = setTimeout(() => callback(...args), delay);
+		}
+	}
+
 	/**검색어 자동완성 */
 	const [inputValue, setInputValue] = useState('');
 	const [isHaveInputValue, setIsHaveInputValue] = useState(false);
 	const [dropDownList, setDropDownList] = useState([]);
 	const [dropDownItemIndex, setDropDownItemIndex] = useState(-1);
 
-	useEffect(() => {
-		const showDropDownList = async () => {
-			const url = process.env.REACT_APP_BACKEND_URL;
-		const endpoint = '/main/search';
+	const showDropDownList = useCallback(
+		debounce(async (value) => {
+			const endpoint = '/main/search';
 			try {
-				if (inputValue === '') {
+				if (value === '') {
 					setIsHaveInputValue(false);
 					setDropDownList([]);
 				} else {
-					const res = await axios.get(url + endpoint, {
+					const res = await axios.get(endpoint, {
 						params: {
-							keyword: inputValue
+							keyword: value
 						}
 					});
 					const data = res.data.data;
@@ -29,11 +38,11 @@ export const SearchBox = ({setAddr, setCoord, setSearchBtn}) => {
 			} catch (e) {
 				console.error(e.message);
 			}
-		}
-		showDropDownList();
-	}, [inputValue]);
+		}, 500)
+		, []);
 
 	const changeInputValue = event => {
+		showDropDownList(event.target.value);
 		setInputValue(event.target.value);
 		setIsHaveInputValue(true);
 	}
@@ -85,11 +94,11 @@ export const SearchBox = ({setAddr, setCoord, setSearchBtn}) => {
 						<div className='mt-[1rem] w-[58rem] h-[19.5rem] overflow-auto'>
 							{dropDownList.map((dropDownItem, dropDownIndex) => {
 								return (
-									<div 
-									key={dropDownIndex}
-									onClick={() => clickDropDownItem(dropDownItem)}
-									onMouseOver={() => setDropDownItemIndex(dropDownIndex)}
-									className={dropDownItemIndex === dropDownIndex ? 'bg-[#f4f4f4] p-1 text-lg' : 'p-1 text-lg'}
+									<div
+										key={dropDownIndex}
+										onClick={() => clickDropDownItem(dropDownItem)}
+										onMouseOver={() => setDropDownItemIndex(dropDownIndex)}
+										className={dropDownItemIndex === dropDownIndex ? 'bg-[#f4f4f4] p-1 text-lg' : 'p-1 text-lg'}
 									>
 										{dropDownItem.fullAddr}
 									</div>

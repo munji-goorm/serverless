@@ -3,21 +3,14 @@ import { Link, useLocation } from 'react-router-dom';
 import AppIcon from '../../assets/images/goodMunji.png';
 import { ReactComponent as LocationIcon } from '../../assets/icons/location.svg';
 import { ReactComponent as DropDownArrowIcon } from '../../assets/icons/dropDownArrow.svg';
-import { Coord2address, GetLocation } from '../../apis';
 import { SearchBox } from './SearchBox';
 
-export default function Header({ setStationCoord }) {
+export default function Header({ addr, setAddr, setCoord }) {
 	const [searchBtn, setSearchBtn] = useState(true);
 	const header = useRef();
 	const location = useLocation();
-	let coord = GetLocation();
-	let addr = Coord2address(coord);
-	const [shortAddr, setShortAddr] = useState(addr);
 
-	useEffect(() => {
-		setShortAddr(addr);
-	}, [addr]);
-
+	/* 지역 검색창 이벤트 핸들러 */
 	useEffect(() => {
 		// 이벤트 핸들러 함수
 		const handler = (e) => {
@@ -31,7 +24,6 @@ export default function Header({ setStationCoord }) {
 		return () => {
 			// 이벤트 핸들러 해제
 			document.removeEventListener('mousedown', handler);
-
 		}
 	});
 
@@ -45,33 +37,27 @@ export default function Header({ setStationCoord }) {
 							<Link to='/'>
 								<div className='flex flex-row items-center'>
 									<img className="inline w-10" alt="appIcon" src={AppIcon}></img>
-									<span className='px-2 text-2xl text-[#272727]' style={{fontFamily:"LeeSeoyun"}}>먼지구름</span>
+									<span className='px-2 text-2xl text-[#272727]' style={{ fontFamily: "LeeSeoyun" }}>먼지구름</span>
 								</div>
 							</Link>
-							{
-								location.pathname === '/'
-									?
-									<div className='ml-[11rem] flex items-center'>
-										<button onClick={() => {
-											window.location.reload();
-										}}>
-											<LocationIcon className='inline w-6' />
-										</button>
-										<div className='ml-3 mr-2 text-xl font-semibold text-[#272727]'>{shortAddr}</div>
+							<div className='ml-[11rem] flex items-center'>
+								<button onClick={() => {
+									window.location.reload();
+								}}>
+									<LocationIcon className='inline w-6' />
+								</button>
+								<div className='ml-3 mr-2 text-xl font-semibold text-[#272727]'>{addr}</div>
 
-										<button onClick={() => {
-											setSearchBtn(false)
-										}} className="searchBtn">
-											<DropDownArrowIcon id="drop-down-icon" className='inline w-6' />
-										</button>
-									</div>
-									: <></>
-							}
+								<button onClick={() => {
+									setSearchBtn(false)
+								}} className="searchBtn">
+									<DropDownArrowIcon id="drop-down-icon" className='inline w-6' />
+								</button>
+							</div>
 
 							{
 								location.pathname === '/'
 									?
-
 									<div className='flex flex-row items-center'>
 										<Link to="/">
 											<button
@@ -124,13 +110,13 @@ export default function Header({ setStationCoord }) {
 							<Link to='/'>
 								<div className='flex flex-row items-center'>
 									<img className="inline w-10" alt="appIcon" src={AppIcon}></img>
-									<span className='px-2 text-2xl text-[#272727]'style={{fontFamily:"LeeSeoyun"}}>먼지구름</span>
+									<span className='px-2 text-2xl text-[#272727]' style={{ fontFamily: "LeeSeoyun" }}>먼지구름</span>
 								</div>
 							</Link>
 
 							<div className='ml-[11rem] flex items-center'>
 								<LocationIcon className='inline w-6' />
-								<div className='ml-3 mr-2 text-xl font-semibold text-[#272727]'>{shortAddr}</div>
+								<div className='ml-3 mr-2 text-xl font-semibold text-[#272727]'>{addr}</div>
 								<button onClick={() => {
 									setSearchBtn(true)
 								}} className="searchBtn">
@@ -186,7 +172,7 @@ export default function Header({ setStationCoord }) {
 							}
 						</div>
 					</div>
-					<SearchBox setAddr={setShortAddr} setCoord={setStationCoord} setSearchBtn={setSearchBtn} />
+					<SearchBox setAddr={setAddr} setCoord={setCoord} setSearchBtn={setSearchBtn} />
 				</div>
 			}
 		</>
