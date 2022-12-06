@@ -2,7 +2,7 @@ import React from 'react';
 import { DailyForecastBox, HitmapBox, MainBox, PollutantBox, WholeAirInfoBox } from '../components/AirPollution';
 import { PM10Box } from '../components/AirPollution/PM10Box';
 
-export default function AirPollution({stationData, addr}) {
+export default function AirPollution({stationData}) {
 	let stationInfo = stationData.stationInfo;
 	let stationName = stationInfo.stationName;
 	let grade = stationInfo.khaiState;

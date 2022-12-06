@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export const GetMainData = (lat, lng) => {
+export const GetMainData = (fullAddr) => {
 	const url = process.env.REACT_APP_BACKEND_URL;
 	const endpoint = '/main';
 
@@ -21,8 +21,7 @@ export const GetMainData = (lat, lng) => {
 	const getPollutantData = async () => {
 		await axios.get(url + endpoint, {
 			params: {
-				latitude: lat,
-				longitude: lng
+				fullAddr: fullAddr
 			}
 		})
 		.then(function(response){
@@ -40,7 +39,7 @@ export const GetMainData = (lat, lng) => {
 
 	useEffect(() => {
 		getPollutantData();
-	}, [lat, lng]);
+	}, [fullAddr]);
 
 	return pollutantData
 }
