@@ -54,8 +54,8 @@ export default function LiveCam({ coord }) {
 					<div className='w-[63rem] h-[1rem] my-[1rem] text-[#272727] flex flex-col font-medium text-sm'>
 						<button className='w-fit'
 							onClick={() => {
-							setClickBtn(false)
-						}}>
+								setClickBtn(false)
+							}}>
 							<div className='flex items-center'>
 								미세먼지 적은 날과 비교하기
 								<DropDownArrowIcon id="drop-down-icon" className='inline w-5' />
@@ -64,9 +64,10 @@ export default function LiveCam({ coord }) {
 					</div>
 					:
 					<div className='w-[63rem] h-[10rem] my-[1rem] text-[#272727] flex flex-col font-medium text-sm'>
-						<button onClick={() => {
-							setClickBtn(true)
-						}}>
+						<button className='w-fit'
+							onClick={() => {
+								setClickBtn(true)
+							}}>
 							<div className='flex items-center'>
 								미세먼지 적은 날과 비교하기
 								<DropDownArrowIcon id="drop-down-icon" className='inline w-5 rotate-180' />
