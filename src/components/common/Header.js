@@ -4,11 +4,76 @@ import AppIcon from '../../assets/images/goodMunji.png';
 import { ReactComponent as LocationIcon } from '../../assets/icons/location.svg';
 import { ReactComponent as DropDownArrowIcon } from '../../assets/icons/dropDownArrow.svg';
 import { SearchBox } from './SearchBox';
+import axios from 'axios';
 
-export default function Header({ addr, setAddr, setCoord }) {
+export default function Header({ shortAddr, setShortAddr, setFullAddr, setCoord }) {
 	const [searchBtn, setSearchBtn] = useState(true);
 	const header = useRef();
 	const location = useLocation();
+
+	/** Geolocation API - 사용자 현재 위치(위도, 경도)를 불러옵니다. */
+	//Geolocation 호출 성공
+	const onSuccess = (location) => {
+		let lat = location.coords.latitude;
+		let lng = location.coords.longitude;
+		// console.log("-----------success geolocation API-----------");
+		// console.log(lat, lng);
+		setCoord({
+			lat: lat,
+			lng: lng,
+		});
+		coord2addr({ lat: lat, lng: lng });
+		localStorage.setItem('userXCoord', lat);
+		localStorage.setItem('userYCoord', lng);
+	}
+
+	//Geolocation 호출 실패
+	const onError = (error) => {
+		alert("일시적으로 내 위치를 확인할 수 없습니다. 지역검색 버튼을 통해 원하는 지역을 선택하여 대기 오염을 확인할 수 있습니다.");
+		// console.log("-----------failed geolocation API-----------");
+		// console.log(error);
+	}
+
+	//위도, 경도로 주소를 가져옵니다.
+	const coord2addr = async (coord) => {
+		const url = "https://dapi.kakao.com/v2/local/geo/coord2regioncode.json";
+		const params = {
+			x: coord.lng, //경도
+			y: coord.lat, //위도
+			input_coord: "WGS84",
+		}
+		const headers = {
+			Authorization: `KakaoAK ${process.env.REACT_APP_KAKAOMAP_API_KEY_REST}`,
+		}
+		await axios.get(url, {
+			params: params,
+			headers: headers,
+		})
+			.then(function (response) {
+				//handle success
+				localStorage.setItem('userFullAddr', response.data.documents[0].address_name);
+				setFullAddr(response.data.documents[0].address_name);
+			})
+			.catch(function (error) {
+				//handle error
+				console.error(error.message);
+			})
+	}
+
+	const getGeolocation = async () => {
+		const { geolocation } = navigator;
+		//사용자 브라우저에서 Geolocation이 정의되지 않은 경우 오류로 처리합니다.
+		if (!geolocation) {
+			alert("Geolocation is not supported.");
+		}
+
+		//Geolocation API 호출
+		geolocation.getCurrentPosition(onSuccess, onError, {
+			enableHighAccuracy: false,
+			maximumAge: 1000 * 3600 * 24, //24h
+			timeout: 5000, //5sec
+		});
+	}
 
 	/* 지역 검색창 이벤트 핸들러 */
 	useEffect(() => {
@@ -41,12 +106,15 @@ export default function Header({ addr, setAddr, setCoord }) {
 								</div>
 							</Link>
 							<div className='ml-[11rem] flex items-center'>
-								<button onClick={() => {
-									window.location.reload();
+								<button onClick={async () => {
+									// window.location.reload();
+									getGeolocation();
+									//coord2addr(coord);
+
 								}}>
 									<LocationIcon className='inline w-6' />
 								</button>
-								<div className='ml-3 mr-2 text-xl font-semibold text-[#272727]'>{addr}</div>
+								<div className='ml-3 mr-2 text-xl font-semibold text-[#272727]'>{shortAddr}</div>
 
 								<button onClick={() => {
 									setSearchBtn(false)
@@ -102,7 +170,6 @@ export default function Header({ addr, setAddr, setCoord }) {
 						</div>
 					</div>
 				</div>
-
 				:
 				<div ref={header} className='w-full h-[4rem]'>
 					<div className='fixed z-30 flex flex-col h-[4rem] w-full items-center justify-center bg-white outline outline-1 outline-[#cccccc]'>
@@ -116,7 +183,7 @@ export default function Header({ addr, setAddr, setCoord }) {
 
 							<div className='ml-[11rem] flex items-center'>
 								<LocationIcon className='inline w-6' />
-								<div className='ml-3 mr-2 text-xl font-semibold text-[#272727]'>{addr}</div>
+								<div className='ml-3 mr-2 text-xl font-semibold text-[#272727]'>{shortAddr}</div>
 								<button onClick={() => {
 									setSearchBtn(true)
 								}} className="searchBtn">
@@ -172,7 +239,7 @@ export default function Header({ addr, setAddr, setCoord }) {
 							}
 						</div>
 					</div>
-					<SearchBox setAddr={setAddr} setCoord={setCoord} setSearchBtn={setSearchBtn} />
+					<SearchBox setShortAddr={setShortAddr} setFullAddr={setFullAddr} setCoord={setCoord} setSearchBtn={setSearchBtn} />
 				</div>
 			}
 		</>
