@@ -23,7 +23,7 @@ function App() {
     lng: yCoord,
   });
 
-  const [shortAddr, setShortAddr] = useState(currShortAddr); //지역(xx구 oo동)
+  const [shortAddr, setShortAddr] = useState(currShortAddr);
   const [fullAddr, setFullAddr] = useState(currFullAddr);
  
   let stationData = GetMainData(fullAddr); //현재 위치에서 근접측정소의 대기오염정보
