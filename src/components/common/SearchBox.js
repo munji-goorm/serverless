@@ -57,6 +57,7 @@ export const SearchBox = ({ setShortAddr, setFullAddr, setCoord, setSearchBtn })
 
 	//최근 검색어 삭제
 	const deleteRecentWord = shortAddr => {
+		console.log("delete");
 		//버튼 안보이게 처리
 		document.getElementById(shortAddr).style.display = 'none';
 		//삭제할 주소를 제외하고 새로운 배열을 생성한다.
@@ -206,22 +207,28 @@ export const SearchBox = ({ setShortAddr, setFullAddr, setCoord, setSearchBtn })
 				</div>
 				<div>
 					<div className='mt-[1rem] w-[58rem] h-[2rem] flex items-center text-lg'>
-						<div className='mr-2 text-[#878787]'>최근 검색</div>
+						<div className='mr-[0.5rem] text-[#878787]'>최근 검색</div>
 						{(localStorage.getItem('shortAddr') && localStorage.getItem('shortAddr') !== '[]')
-						? <div className='w-[53rem] flex overflow-x-auto'>
+						? <div className='flex'>
 							{JSON.parse(localStorage.getItem('shortAddr')).map((shortAddr, index) => {
 							return (
+								<div id={shortAddr} className="flex hover:border-2 bg-[#f4f4f4] rounded-xl items-center mr-2">
 								<button
 									key={index}
-									id={shortAddr}
-									className="flex items-center px-2 mx-1 bg-[#f4f4f4] text-[#777777] rounded-xl hover:border-2 break-normal"
-									onClick={() => {submitRecentWord(shortAddr)}}
+									className="pl-2 mx-1 text-[#777777] rounded-xl"
+									onClick={() => {
+										submitRecentWord(shortAddr)
+									}}
 								>
 									{shortAddr}
+									</button>
 									<DeleteIcon 
-										className='inline ml-1 rounded hover:bg-red-400'
-										onClick={() => {deleteRecentWord(shortAddr)}} />
-								</button>
+										className='inline mr-2 rounded hover:bg-red-400 hover:cursor-pointer'
+										onClick={() => {
+											console.log("delete");
+											deleteRecentWord(shortAddr)
+											}} />
+								</div>
 							)
 						})}
 						</div>
