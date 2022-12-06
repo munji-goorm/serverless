@@ -27,14 +27,14 @@ export const GetCCTVInfo = (mapLevel, xOne, xTwo, yOne, yTwo) => {
 		})
 		.then(function(response){
 			// handle success
-			console.log("-----------called GetCCTVInfo: CCTV 마커 불러오기-----------");
-			console.log(response.data.data);
+			// console.log("-----------called GetCCTVInfo: CCTV 마커 불러오기-----------");
+			// console.log(response.data.data);
 			setCctv(response.data.data);
 		})
 		.catch(function(error){
 			// handle error
-			//alert("서버 오류로 CCTV 데이터를 가져오지 못했습니다.");
-			console.log("서버 오류로 CCTV 데이터를 가져오지 못했습니다.");
+			alert("서버 오류로 CCTV 데이터를 가져오지 못했습니다.");
+			// console.log(error.message);
 		})
 	}
 	

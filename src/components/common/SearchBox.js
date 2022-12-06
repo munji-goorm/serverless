@@ -57,7 +57,6 @@ export const SearchBox = ({ setShortAddr, setFullAddr, setCoord, setSearchBtn })
 
 	//최근 검색어 삭제
 	const deleteRecentWord = shortAddr => {
-		console.log("delete");
 		//버튼 안보이게 처리
 		document.getElementById(shortAddr).style.display = 'none';
 		//삭제할 주소를 제외하고 새로운 배열을 생성한다.
@@ -225,7 +224,6 @@ export const SearchBox = ({ setShortAddr, setFullAddr, setCoord, setSearchBtn })
 									<DeleteIcon 
 										className='inline mr-2 rounded hover:bg-red-400 hover:cursor-pointer'
 										onClick={() => {
-											console.log("delete");
 											deleteRecentWord(shortAddr)
 											}} />
 								</div>

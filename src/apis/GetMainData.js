@@ -26,14 +26,14 @@ export const GetMainData = (fullAddr) => {
 		})
 		.then(function(response){
 			// handle success
-			console.log("-----------called GetMainData-----------");
-			console.log(response.data.data);
+			// console.log("-----------called GetMainData-----------");
+			// console.log(response.data.data);
 			setPollutantData(response.data.data);
 		})
 		.catch(function(error) {
 			// handle error
 			alert("서버 오류로 대기오염 정보를 가져오지 못했습니다.");
-			console.log(error.message);
+			// console.log(error.message);
 		})
 	}
 
