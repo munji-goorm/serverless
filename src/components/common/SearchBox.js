@@ -193,19 +193,19 @@ export const SearchBox = ({ setShortAddr, setFullAddr, setCoord, setSearchBtn })
 	return (
 		<div id="search-box" className='flex items-center flex-col fixed top-[4rem] z-20 w-full h-[25rem] bg-[#ffffff]'>
 			<div className='w-[63rem] h-[25rem] flex flex-col items-center'>
-				<div className='flex items-center mt-[1.5rem] w-[58rem] h-[3rem] bg-[#f4f4f4] rounded-3xl'>
+				<div className='flex items-center mt-[1.5rem] w-[63rem] h-[3rem] bg-[#f4f4f4] rounded-3xl'>
 					<SearchIcon className='ml-4' />
 					<input
 						ref={inputBox}
 						type="text" placeholder="지역으로 검색하세요."
-						className='bg-[#f4f4f4] w-[53rem] outline-none ml-2'
+						className='bg-[#f4f4f4] w-[58rem] outline-none ml-2'
 						value={inputValue}
 						onChange={changeInputValue}
 						onKeyUp={handleDropDownKey}
 				/>
 				</div>
-				<div>
-					<div className='mt-[1rem] w-[58rem] h-[2rem] flex items-center text-lg'>
+				<div className='w-[63rem] h-[4rem]'>
+					<div className='mt-[1rem] flex items-center text-lg'>
 						<div className='mr-[0.5rem] text-[#878787]'>최근 검색</div>
 						{(localStorage.getItem('shortAddr') && localStorage.getItem('shortAddr') !== '[]')
 						? <div className='flex'>
@@ -235,7 +235,7 @@ export const SearchBox = ({ setShortAddr, setFullAddr, setCoord, setSearchBtn })
 						
 					</div>
 					{isHaveInputValue && (
-						<div className='mt-[1rem] w-[58rem] h-[15.5rem] overflow-auto'>
+						<div className='mt-[1rem] w-[63rem] h-[15.5rem] overflow-auto'>
 							{dropDownList.map((dropDownItem, dropDownIndex) => {
 								return (
 									<div
