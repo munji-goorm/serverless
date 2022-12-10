@@ -44,7 +44,7 @@ export default function LiveCam({ coord }) {
 			<div className='w-[63rem] h-[12rem] flex justify-between'>
 				<iframe id="seoulVideo" frameBorder="0" allowFullScreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" title="실시간 서울 한강 라이브캠 Seoul Hangang 4K Live Cam Webcam w/Lofi 韓国ライブカメラ, 반포대교 노을멍, 코딩 노동요 로파이 플레이리스트 BGM" width="320" height="180" src="https://www.youtube.com/embed/-JhoMGoAfFc?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;mute=1&amp;enablejsapi=1&amp;origin=http%3A%2F%2Flocalhost%3A3000&amp;widgetid=7" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation"></iframe>
 
-				<iframe id="busanVideo" frameBorder="0" allowFullScreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" title="🔴실시간 부산 라이브캠 🌕 Busan Live Cam Korea CCTV Live" width="320" height="180" src="https://www.youtube.com/embed/fZOfK1LIO20?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;mute=1&amp;enablejsapi=1&amp;origin=http%3A%2F%2Flocalhost%3A3000&amp;widgetid=1" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation"></iframe>
+				<iframe id="busanVideo" frameBorder="0" allowFullScreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" title="🔴실시간 부산 라이브캠 🌕 Busan Live Cam Korea CCTV Live" width="320" height="180" src="https://www.youtube.com/embed/i3rkCPrVAgM?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;mute=1&amp;enablejsapi=1&amp;origin=http%3A%2F%2Flocalhost%3A3000&amp;widgetid=1" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation"></iframe>
 
 				<iframe id="jejuVideo" frameBorder="0" allowFullScreen="1" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" title="펀제주 실시간 제주도 날씨 제주 협재 바다 라이브캠  Jeju Island in South Korea Live Cam" width="320" height="180" src="https://www.youtube.com/embed/oEXCjWsksA8?autoplay=1&amp;rel=0&amp;modestbranding=1&amp;mute=1&amp;enablejsapi=1&amp;origin=http%3A%2F%2Flocalhost%3A3000&amp;widgetid=5" sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox allow-presentation"></iframe>
 			</div>
@@ -52,10 +52,9 @@ export default function LiveCam({ coord }) {
 			{
 				clickBtn ?
 					<div className='w-[63rem] h-[1rem] my-[1rem] text-[#272727] flex flex-col font-medium text-sm'>
-						<button className='w-fit'
-							onClick={() => {
-								setClickBtn(false)
-							}}>
+						<button onClick={() => {
+							setClickBtn(false)
+						}}>
 							<div className='flex items-center'>
 								미세먼지 적은 날과 비교하기
 								<DropDownArrowIcon id="drop-down-icon" className='inline w-5' />
@@ -64,10 +63,9 @@ export default function LiveCam({ coord }) {
 					</div>
 					:
 					<div className='w-[63rem] h-[10rem] my-[1rem] text-[#272727] flex flex-col font-medium text-sm'>
-						<button className='w-fit'
-							onClick={() => {
-								setClickBtn(true)
-							}}>
+						<button onClick={() => {
+							setClickBtn(true)
+						}}>
 							<div className='flex items-center'>
 								미세먼지 적은 날과 비교하기
 								<DropDownArrowIcon id="drop-down-icon" className='inline w-5 rotate-180' />
